@@ -4,7 +4,7 @@ import pathlib
 import google.generativeai as genai
 import os
 from abc import ABC, abstractmethod
-
+import logging
 from CV.cv import CVImage
 
 class LLMModelWrapper(ABC):
@@ -53,15 +53,40 @@ class GeminiModelWrapper(LLMModelWrapper):
     
     # Initialise a new chat
     def start_new_chat(self,history=[]):
+        logging.info("Starting a new chat session...")
         self.chat = self.model.start_chat(history=history)
         self.history = history
         
+        
+    def send_message(self,full_prompt):
+        if self.chat is None:
+            self.start_new_chat()
+        logging.info("Gemini Text Prompt: " + full_prompt)
+        response = self.chat.send_message(
+            [full_prompt]
+        )
+        logging.info("Gemini Response: " + str(response))
+
+        return response
     
+    def send_message_w_attachment(self, full_prompt, cookie_picture):
+        if self.chat is None:
+            self.start_new_chat()
+        logging.info("Gemini Text Prompt w/ Attached Photo: " + full_prompt)
+        response = chat.send_message(
+            [full_prompt, cookie_picture]
+        )
+        logging.info("Gemini Response: " + str(response))
+
+        return response
+      
     
 
     def get_resume_feedback(self,CV,job_link):
         if self.chat is None:
             self.start_new_chat()
+            
+        
         
         cookie_picture = {
             'mime_type': CV.media_type,
@@ -81,6 +106,7 @@ class GeminiModelWrapper(LLMModelWrapper):
         response = chat.send_message(
             [prompt, cookie_picture]
         )
+        
         return response
 
 
