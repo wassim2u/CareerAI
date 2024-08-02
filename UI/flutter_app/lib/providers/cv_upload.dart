@@ -84,6 +84,8 @@ class _CVUploadArea extends State<CVUploadArea> {
 
     IconData icon;
    
+    final ExpansionTileController redactVideoExpansionController = ExpansionTileController();
+
     
     return Center(
         child: Column(
@@ -125,14 +127,21 @@ class _CVUploadArea extends State<CVUploadArea> {
                           // Create a reference to the Firebase Storage bucket
                           final storageRef = FirebaseStorage.instance.ref();
                           print(storageRef);
-                          // Upload file and metadata to the path 'cv_files/CV_filename'
+                          // Upload file and metadata to the path 'cv_files/username/CV_filename'
+                          // TODO: Remove "guest", and configure username to be the same as authentication id
+                          var filePath = "cv_files/guest/$fileName";
+
                           final uploadTask = storageRef
-                              .child("cv_files/$fileName")
+                              .child(filePath)
                               .putData(fileBytes!, metadata);
+                          
                           final snapshot = await uploadTask;
                           final url = await snapshot.ref.getDownloadURL();
                           debugPrint('here is the download url: $url');
-
+                          
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                          );
 
                           // TOOO: Display the file name downloaded
                           appState.addCVFile(fileName);
@@ -168,7 +177,26 @@ class _CVUploadArea extends State<CVUploadArea> {
               }
               return Text("");
             })
-            ), 
+            ),
+            Text("Short Demo of how to Redact (on Mac). Show a GIF on Mac, and show other links for other software."),
+            ExpansionTile(
+              controller: redactVideoExpansionController,
+              title: const Text('Info on how to redact'),
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(24),
+                  child: const    Image(
+              image: AssetImage('assets/redact_example_mac.gif'),
+              
+              fit: BoxFit.scaleDown,
+            ),
+                ),
+                Text("1.Easiest way is to also manually make a copy of your resume where you delete the text data. "),
+                Text("2. Another way is to use redact features on PDF software tools. On Mac, you can use Preview to redact. Please find more information online depending on your favourite PDF tool and operating system. ")
+              ],
+            ),
+
           ],
         ),
       );
