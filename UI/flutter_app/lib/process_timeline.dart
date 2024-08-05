@@ -3,6 +3,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/cv_upload.dart';
+import 'package:flutter_app/providers/interview_type_input.dart';
+import 'package:flutter_app/providers/job_upload.dart';
+import 'package:flutter_app/results/simpleFeedback.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timelines/timelines.dart';
 
@@ -14,6 +17,8 @@ const completeColor = Color.fromARGB(255, 195, 205, 255);
 const inProgressColor = Color.fromARGB(206, 58, 82, 204);
 const todoColor = Color(0xffd1d2d7);
 
+
+// TODO: Refactor and separate business logic and UI using Bloc
 class ProcessTimelinePage extends StatefulWidget {
   @override
   _ProcessTimelinePageState createState() => _ProcessTimelinePageState();
@@ -21,6 +26,10 @@ class ProcessTimelinePage extends StatefulWidget {
 
 class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
   int _processIndex = 0;
+
+  String? uploadedCVLink;
+  String? feedbackType;
+  
 
   Color getColor(int index) {
     if (index == _processIndex) {
@@ -32,9 +41,43 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
     }
   }
 
+
+
+  
+
+
+  void moveToNextOrPrevFormOnClick(bool moveForward){
+    setState( () {
+      if (moveForward){
+        if (_processIndex ==  _processes.length -1){
+              // TODO: Submit - Move to the results page.
+               Navigator.push(
+
+                  context, MaterialPageRoute(builder: (context) => QuickResultsPage(cv_link: "cv_link_placeholder", job_description: "job_description_placeholder",)));
+              
+          }
+          else{
+            _processIndex = (_processIndex + 1);
+          }
+      }
+      else{
+        // Return back to the previous page (Home)
+        if (_processIndex == 0){
+          Navigator.pop(context);
+        }
+        else{
+          _processIndex = (_processIndex - 1);    
+        }
+      }
+    });
+  }
+
+
+  
+
   List listOfIcons = [Icon(Icons.document_scanner_outlined), Icon(Icons.info), Icon(Icons.person)];
 
- 
+  
 
 TimelineTileBuilder buildUXFormBar(BuildContext context) {
     return TimelineTileBuilder.connected(
@@ -153,9 +196,10 @@ TimelineTileBuilder buildUXFormBar(BuildContext context) {
 }
 
 
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: TitleAppBar('Career Feedback'),
       body: 
@@ -175,13 +219,48 @@ TimelineTileBuilder buildUXFormBar(BuildContext context) {
         builder: buildUXFormBar(context),
       )
       ), 
-      CVSectionPage()]
-      ), 
+       SizedBox(child: Builder( 
+            builder: (context){
+            switch (_processes[_processIndex] ) {
+              case "Upload CV" :
+                return CVSectionPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,);
+              case "Job Description":
+                return JobUploadPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,);
+              case "Feedback Type":
+                return InterviewTypeInputPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,);
+              default:
+                throw AssertionError("Error In Process Timeline Page Navigation");
+            }
+            
+            })
+            ), 
+        ]
+      ),
+       
       floatingActionButton: FloatingActionButton(
+        
         onPressed: () {
-          setState(() {
-            _processIndex = (_processIndex + 1) % _processes.length;
-          });
+          // // Validate returns true if the form is valid, or false otherwise.
+          // if (_formKey.currentState!.validate()) {
+          //   // If the form is valid, display a snackbar. In the real world,
+          //   // you'd often call a server or save the information in a database.
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     const SnackBar(content: Text('Processing Data')),
+          //   );
+
+            setState(() {
+            if (_processIndex ==  _processes.length -1){
+              // TODO: Submit - Move to the results page.
+               Navigator.push(
+
+                  context, MaterialPageRoute(builder: (context) => QuickResultsPage(cv_link: "cv_link_placeholder", job_description: "job_description_placeholder",)));
+              
+            }
+            else{
+            _processIndex = (_processIndex + 1);
+            }
+              });
+          // }
         },
         backgroundColor: inProgressColor,
         child: Icon(FontAwesomeIcons.chevronRight),

@@ -80,74 +80,70 @@ class WelcomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                   FittedBox(fit:BoxFit.scaleDown, child:Wrap(
-                       
-                      direction: Axis.vertical, children: [
-                     
-                      Text.rich(TextSpan(children: <InlineSpan>[
-                        TextSpan(
-                          text: 'In',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text: "Vision\n",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )
-                      ])),
-                      AutoSizeText(
-                        'Ace your next ',
-                        minFontSize: 50,
-                        maxFontSize: 120,
-                        style: TextStyle(height:0.04)
-                      ),
-                      AutoSizeText('interviews.',
-                          minFontSize: 50,
-                          maxFontSize: 120,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 150,
-                              color: Colors.blue)),
-                    ])),
-                    SizedBox(height:10),
                     FittedBox(
-                        // padding:EdgeInsets.all(1),
-                        // alignment: Alignment.bottomCenter,
-                        child: Wrap(
-                          // mainAxisAlignment: MainAxisAlignment.end,
-                          // crossAxisAlignment: ,
-                          direction: Axis.vertical,
-                          spacing: 10,
-                          
+                        fit: BoxFit.scaleDown,
+                        child: Wrap(direction: Axis.vertical, children: [
+                          Text.rich(TextSpan(children: <InlineSpan>[
+                            TextSpan(
+                              text: 'In',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(
+                              text: "Vision\n",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            )
+                          ])),
+                          AutoSizeText('Ace your next ',
+                              minFontSize: 50,
+                              maxFontSize: 120,
+                              style: TextStyle(height: 0.04)),
+                          AutoSizeText('interviews.',
+                              minFontSize: 50,
+                              maxFontSize: 120,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 150,
+                                  color: Colors.blue)),
+                        ])),
+                    SizedBox(height: 10),
+                    FittedBox(
+                      // padding:EdgeInsets.all(1),
+                      // alignment: Alignment.bottomCenter,
+                      child: Wrap(
+                        // mainAxisAlignment: MainAxisAlignment.end,
+                        // crossAxisAlignment: ,
+                        direction: Axis.vertical,
+                        spacing: 10,
 
-                          children: [
-                            AutoSizeText(
-                                "Real-time, Personalized Feedback \n Receive instant, AI-generated insights on your interview performance, \n helping you identify strengths and areas for improvement with precision."),
-                            AutoSizeText(
-                                "Customizable Feedback Options \n Tailor the feedback you receive by selecting specific areas you want to focus on, \n whether it is quick resume analysis, behavourial interviews, or technical interviews."),
-                          ],
-                        ),),
-
-                    SizedBox(height:10),
-
-                    Row(mainAxisAlignment: MainAxisAlignment.start,children:[ElevatedButton(
-
-                        onPressed: () => _navigateToNextScreen(context),
-                        child: RichText(
-  text: TextSpan(
-    style: Theme.of(context).textTheme.bodyLarge,
-    children: [
-      TextSpan(text: 'Get Started '),
-      WidgetSpan(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(),
-          child: Icon(Icons.arrow_right_alt_rounded),
-        ),
-      ),
-    ],
-  ),
-))])
+                        children: [
+                          AutoSizeText(
+                              "Real-time, Personalized Feedback \n Receive instant, AI-generated insights on your interview performance, \n helping you identify strengths and areas for improvement with precision."),
+                          AutoSizeText(
+                              "Several Interview Options \n Tailor the type of feedback you are looking for, \n whether it is quick resume analysis, behavourial interviews, or technical interviews."),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      ElevatedButton(
+                          onPressed: () => _navigateToNextScreen(context),
+                          child: RichText(
+                            text: TextSpan(
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              children: [
+                                TextSpan(text: 'Get Started '),
+                                WidgetSpan(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(),
+                                    child: Icon(Icons.arrow_right_alt_rounded),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ))
+                    ])
                   ],
                 )),
 
@@ -155,11 +151,10 @@ class WelcomePage extends StatelessWidget {
             //   child: Image(image: AssetImage('assets/landing_page.jpeg')),
             // ),
             Image(
-                image: AssetImage('assets/landing_page.jpeg'),
-                fit: BoxFit.scaleDown,
-                )
-          ]
-          ),
+              image: AssetImage('assets/landing_page.jpeg'),
+              fit: BoxFit.scaleDown,
+            )
+          ]),
     );
   }
 
