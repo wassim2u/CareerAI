@@ -33,12 +33,14 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+  
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ace',
+      title: 'InVision',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlueAccent),
@@ -66,6 +68,7 @@ class MyApp extends StatelessWidget {
 }
 
 class WelcomePage extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +79,8 @@ class WelcomePage extends StatelessWidget {
           children: [
             Container(
                 padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
-                child: Column(
+                child: FadeTransitionExample(key: key, 
+                widgetToFade: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -85,7 +89,7 @@ class WelcomePage extends StatelessWidget {
                         child: Wrap(direction: Axis.vertical, children: [
                           Text.rich(TextSpan(children: <InlineSpan>[
                             TextSpan(
-                              text: 'In',
+                              text: 'In|',
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
@@ -118,10 +122,50 @@ class WelcomePage extends StatelessWidget {
                         spacing: 10,
 
                         children: [
-                          AutoSizeText(
-                              "Real-time, Personalized Feedback \n Receive instant, AI-generated insights on your interview performance, \n helping you identify strengths and areas for improvement with precision."),
-                          AutoSizeText(
-                              "Several Interview Options \n Tailor the type of feedback you are looking for, \n whether it is quick resume analysis, behavourial interviews, or technical interviews."),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 2.0),
+                                      child: Icon(Icons.feedback_outlined,  color: Color.fromARGB(206, 58, 82, 204)),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(text: "  Real-time, Personalized Feedback \n" , style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
+                                      TextSpan(text: "Receive instant, AI-generated insights on your interview performance, \nhelping you identify strengths and areas for improvement with precision.",)
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  WidgetSpan(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 2.0),
+                                      child: Icon(Icons.assessment_outlined, color: Color.fromARGB(206, 58, 82, 204)),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(text: "  Several Interview Options \n" , style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
+                                      TextSpan(text: "Tailor the type of feedback you are looking for, \nwhether it is quick resume analysis, behavourial interviews, or technical interviews.",)
+                                    ],
+                                    ),
+                                ],
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -143,9 +187,10 @@ class WelcomePage extends StatelessWidget {
                               ],
                             ),
                           ))
-                    ])
+                    ]),
+                  
                   ],
-                )),
+                ))),
 
             //   Container(
             //   child: Image(image: AssetImage('assets/landing_page.jpeg')),

@@ -57,7 +57,7 @@ class QuickResultsPage extends StatelessWidget{
         Center(
           child: FutureBuilder<List<QuickFeedbackResponseSchema>>(
 
-           future: quickAIFeedback(cv_link, job_description), // 👈 Your future function here
+           future: quickAIFeedback(cv_link, job_description), //  Calls the Python REST API
 
           builder: (_, snapshot) {
           if (snapshot.hasError) return Text('Error = ${snapshot.error}');

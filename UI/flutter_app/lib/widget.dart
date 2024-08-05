@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 // typedef NavigateWidgetBuilder = Widget Function();
 
 // mixin NavigateMixin on Widget {
@@ -76,5 +77,89 @@ class TitleAppBar extends StatelessWidget implements PreferredSizeWidget {
           },
         ),
     );
+  }
+}
+
+
+
+
+
+
+
+
+class FadeTransitionExample extends StatefulWidget {
+  final Widget widgetToFade;
+
+  const FadeTransitionExample(
+      {super.key,
+        required this.widgetToFade});
+
+
+  @override
+  State<FadeTransitionExample> createState() => _FadeTransitionExampleState();
+}
+
+/// [AnimationController]s can be created with `vsync: this` because of
+/// [TickerProviderStateMixin].
+class _FadeTransitionExampleState extends State<FadeTransitionExample>
+    with TickerProviderStateMixin {
+
+
+  late final Widget widgetToFadeCopy;
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  )..forward();
+  
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeIn,
+  );
+
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widgetToFadeCopy = widget.widgetToFade;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: FadeTransition(
+        opacity: _animation,
+        child: Padding(padding: EdgeInsets.all(8), child: widgetToFadeCopy)),
+    );
+
+    //   AnimatedBuilder(
+    //     animation: _controller,
+    //     builder: (context, child) {
+    //       final animationPercent = Curves.easeOut.transform(
+    //                       _itemSlideIntervals[i].transform(_staggeredController.value),
+    //       );
+    //       final opacity = animationPercent;
+    //       final slideDistance = (1.0 - animationPercent) * 150;
+
+    //       return Opacity(
+    //         opacity: opacity,
+    //         child: Transform.translate(
+    //           offset: Offset(slideDistance, 0),
+    //           child: child,
+    //         ),
+    //       );
+    //     },
+    //   child: Text("hello"),
+    // )],
+  // );
+    
+    
+  
+  
   }
 }

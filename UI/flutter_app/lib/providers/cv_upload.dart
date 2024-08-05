@@ -21,10 +21,12 @@ class TodoProvider with ChangeNotifier {}
 class CVSectionPage extends StatelessWidget {
   final int processIndex;
   final Function moveToNextOrPrevFormOnClick;
+  final Function setUploadedCVLink;
   const CVSectionPage({
     super.key,
     required this.processIndex,
     required this.moveToNextOrPrevFormOnClick,
+    required this.setUploadedCVLink,
   });
 
   @override
@@ -36,6 +38,7 @@ class CVSectionPage extends StatelessWidget {
             child: CVUploadArea(
               processIndex: processIndex,
               moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,
+              setUploadedCVLink: setUploadedCVLink,
             )));
   }
 }
@@ -43,10 +46,12 @@ class CVSectionPage extends StatelessWidget {
 class CVUploadArea extends StatefulWidget {
   final int processIndex;
   final Function moveToNextOrPrevFormOnClick;
+  final Function setUploadedCVLink;
   const CVUploadArea(
       {Key? key,
       required this.processIndex,
-      required this.moveToNextOrPrevFormOnClick})
+      required this.moveToNextOrPrevFormOnClick,
+      required this.setUploadedCVLink})
       : super(key: key);
 
   @override
@@ -78,11 +83,13 @@ class CVUploadState extends ChangeNotifier {
 class _CVUploadArea extends State<CVUploadArea> {
   late Function moveToNextOrPrevFormOnClickCopy;
   late int processIndexCopy;
+  late Function setUploadedCVLinkCopy;
   @override
   void initState() {
     super.initState();
     moveToNextOrPrevFormOnClickCopy = widget.moveToNextOrPrevFormOnClick;
     processIndexCopy = widget.processIndex;
+    setUploadedCVLinkCopy = widget.setUploadedCVLink;
   }
 
   @override
@@ -152,6 +159,7 @@ class _CVUploadArea extends State<CVUploadArea> {
                         final snapshot = await uploadTask;
                         final url = await snapshot.ref.getDownloadURL();
                         debugPrint('here is the download url: $url');
+                        setUploadedCVLinkCopy(url);
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Processing Data')),

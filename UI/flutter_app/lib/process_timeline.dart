@@ -27,7 +27,7 @@ class ProcessTimelinePage extends StatefulWidget {
 class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
   int _processIndex = 0;
 
-  String? uploadedCVLink;
+  String uploadedCVLink = "";
   String? feedbackType;
   
 
@@ -42,6 +42,11 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
   }
 
 
+  void setUploadedCVLink(String link){
+    setState(() {
+      uploadedCVLink = link;
+    });
+  }
 
   
 
@@ -201,7 +206,7 @@ TimelineTileBuilder buildUXFormBar(BuildContext context) {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TitleAppBar('Career Feedback'),
+      appBar: TitleAppBar('In|Vision - Career Feedback'),
       body: 
       ListView(
         children:[
@@ -223,11 +228,11 @@ TimelineTileBuilder buildUXFormBar(BuildContext context) {
             builder: (context){
             switch (_processes[_processIndex] ) {
               case "Upload CV" :
-                return CVSectionPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,);
+                return CVSectionPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,setUploadedCVLink:setUploadedCVLink,);
               case "Job Description":
-                return JobUploadPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,);
+                return JobUploadPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick);
               case "Feedback Type":
-                return InterviewTypeInputPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,);
+                return InterviewTypeInputPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick);
               default:
                 throw AssertionError("Error In Process Timeline Page Navigation");
             }
