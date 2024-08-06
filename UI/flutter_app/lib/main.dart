@@ -33,8 +33,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
-  
   const MyApp({super.key});
 
   @override
@@ -68,146 +66,215 @@ class MyApp extends StatelessWidget {
 }
 
 class WelcomePage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Column(children: [
+      Flexible(
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-          // mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-                padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
-                child: FadeTransitionExample(key: key, 
-                widgetToFade: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Wrap(direction: Axis.vertical, children: [
-                          Text.rich(TextSpan(children: <InlineSpan>[
-                            TextSpan(
-                              text: 'In|',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: "Vision\n",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            )
-                          ])),
-                          AutoSizeText('Ace your next ',
-                              minFontSize: 50,
-                              maxFontSize: 120,
-                              style: TextStyle(height: 0.04)),
-                          AutoSizeText('interviews.',
-                              minFontSize: 50,
-                              maxFontSize: 120,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 150,
-                                  color: Colors.blue)),
-                        ])),
-                    SizedBox(height: 10),
-                    FittedBox(
-                      // padding:EdgeInsets.all(1),
-                      // alignment: Alignment.bottomCenter,
-                      child: Wrap(
-                        // mainAxisAlignment: MainAxisAlignment.end,
-                        // crossAxisAlignment: ,
-                        direction: Axis.vertical,
-                        spacing: 10,
-
+            // mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                  padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+                  child: FadeTransitionExample(
+                      key: key,
+                      widgetToFade: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  WidgetSpan(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 2.0),
-                                      child: Icon(Icons.feedback_outlined,  color: Color.fromARGB(206, 58, 82, 204)),
-                                    ),
+                              fit: BoxFit.scaleDown,
+                              child: Wrap(direction: Axis.vertical, children: [
+                                Text.rich(TextSpan(children: <InlineSpan>[
+                                  TextSpan(
+                                    text: 'In|',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   TextSpan(
-                                    children: [
-                                      TextSpan(text: "  Real-time, Personalized Feedback \n" , style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
-                                      TextSpan(text: "Receive instant, AI-generated insights on your interview performance, \nhelping you identify strengths and areas for improvement with precision.",)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                    text: "Vision\n",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ])),
+                                AutoSizeText('Ace your next ',
+                                    minFontSize: 50,
+                                    maxFontSize: 120,
+                                    style: TextStyle(height: 0.04)),
+                                AutoSizeText('interviews.',
+                                    minFontSize: 50,
+                                    maxFontSize: 120,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 150,
+                                        color: Colors.blue)),
+                              ])),
+                          SizedBox(height: 10),
                           FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  WidgetSpan(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 2.0),
-                                      // child: Icon(Icons.assessment_outlined, color: Color.fromARGB(206, 58, 82, 204)),
-                                      child: Icon(Icons.video_call_outlined, color: Color.fromARGB(206, 58, 82, 204)),
+                            // padding:EdgeInsets.all(1),
+                            // alignment: Alignment.bottomCenter,
+                            child: Wrap(
+                              // mainAxisAlignment: MainAxisAlignment.end,
+                              // crossAxisAlignment: ,
+                              direction: Axis.vertical,
+                              spacing: 10,
 
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    children: [
-                                      TextSpan(text: "  Several Interview Options \n" , style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)),
-                                      TextSpan(text: "Tailor the type of feedback you are looking for, \nwhether it is quick resume analysis, behavourial interviews, or technical interviews.",)
-                                    ],
-                                    ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                      ElevatedButton(
-                          onPressed: () => _navigateToNextScreen(context),
-                          child: RichText(
-                            text: TextSpan(
-                              style: Theme.of(context).textTheme.bodyLarge,
                               children: [
-                                TextSpan(text: 'Get Started '),
-                                WidgetSpan(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(),
-                                    child: Icon(Icons.arrow_right_alt_rounded),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 2.0),
+                                            child: Icon(Icons.feedback_outlined,
+                                                color: Color.fromARGB(
+                                                    206, 58, 82, 204)),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text:
+                                                    "  Real-time, Personalized Feedback \n",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                            TextSpan(
+                                              text:
+                                                  "Receive instant, AI-generated insights on your interview performance, \nhelping you identify strengths and areas for improvement with precision.",
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        WidgetSpan(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 2.0),
+                                            // child: Icon(Icons.assessment_outlined, color: Color.fromARGB(206, 58, 82, 204)),
+                                            child: Icon(
+                                                Icons.video_call_outlined,
+                                                color: Color.fromARGB(
+                                                    206, 58, 82, 204)),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text:
+                                                    "  Several Interview Options \n",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                            TextSpan(
+                                              text:
+                                                  "Tailor the type of feedback you are looking for, \nwhether it is quick resume analysis, behavourial interviews, or technical interviews.",
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
-                          ))
-                    ]),
-                  
-                  ],
-                ))),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () =>
+                                        _navigateToNextScreen(context),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                        children: [
+                                          TextSpan(text: 'Get Started '),
+                                          WidgetSpan(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(),
+                                              child: Icon(Icons
+                                                  .arrow_right_alt_rounded),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ))
+                              ]),
+                        ],
+                      ))),
 
-            //   Container(
-            //   child: Image(image: AssetImage('assets/landing_page.jpeg')),
-            // ),
-            Image(
-              image: AssetImage('assets/landing_page.jpeg'),
-              fit: BoxFit.scaleDown,
-            )
-          ]),
-    );
+              //   Container(
+              //   child: Image(image: AssetImage('assets/landing_page.jpeg')),
+              // ),
+              Image(
+                image: AssetImage('assets/landing_page.jpeg'),
+                fit: BoxFit.scaleDown,
+              )
+            ]),
+      ),
+      FadeTransitionExample(widgetToFade:BottomBannerWelcomePage()),
+    ]));
   }
 
   void _navigateToNextScreen(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ProcessTimelinePage()));
+  }
+}
+
+class BottomBannerWelcomePage extends StatelessWidget {
+  const BottomBannerWelcomePage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
+      margin: const EdgeInsets.only(left: 22.0),
+        child: SizedBox(
+        height: 50,
+        width: double.infinity,
+        child: Padding(
+            padding: EdgeInsets.all(0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Powered by ",
+                  textAlign: TextAlign.center,
+                ),
+                Image(
+                    fit: BoxFit.scaleDown,
+                    image: AssetImage('assets/Gemini-Logo.png')),
+              ],
+            ))));
   }
 }
 
