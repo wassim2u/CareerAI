@@ -13,6 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/process_timeline.dart';
 import 'package:timelines/timelines.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import 'widget.dart';
 
@@ -199,10 +202,41 @@ class WelcomePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 20),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                ElevatedButton(
+                                  autofocus: false,
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black,
+                                  ),
+                                    onPressed: () async {
+                                      
+                                      if (!await launchUrl(Uri.https('github.com', '/wassim2u/CareerAI'))) {
+                                                throw Exception('Could not launch');
+                                      }
+                                    },
+                                    child: RichText(
+                                      text: TextSpan(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!.copyWith(color:Colors.white),
+                                        children: [
+                                          WidgetSpan(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(),
+                                              child: FaIcon(color: Colors.blueGrey, FontAwesomeIcons.github, size:20),
+                                            ),
+                                          ),
+                                          
+                                          TextSpan(text: ' Star on Github'),
+                                          
+                                        ],
+                                      ),
+                                    )),
+                                SizedBox(width:10),
                                 ElevatedButton(
                                     onPressed: () =>
                                         _navigateToNextScreen(context),
