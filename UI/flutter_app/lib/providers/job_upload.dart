@@ -30,11 +30,12 @@ import 'package:firebase_core/firebase_core.dart';
 class JobUploadPage extends StatelessWidget {
   final int processIndex;
   final Function moveToNextOrPrevFormOnClick;
-
+  final Function getUploadedCVLink;
   const JobUploadPage({
     super.key,
     required this.processIndex,
     required this.moveToNextOrPrevFormOnClick,
+    required this.getUploadedCVLink,
   });
 
 
@@ -45,7 +46,8 @@ class JobUploadPage extends StatelessWidget {
     child:Padding(
       padding: const EdgeInsets.all(32),
       child: JobUploadArea(  processIndex: processIndex,
-              moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick)
+              moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,
+              getUploadedCVLink: getUploadedCVLink)
     )
     );
   }
@@ -56,10 +58,12 @@ class JobUploadArea extends StatefulWidget{
 
   final int processIndex;
   final Function moveToNextOrPrevFormOnClick;
+  final Function getUploadedCVLink;
   const JobUploadArea(
       {Key? key,
       required this.processIndex,
-      required this.moveToNextOrPrevFormOnClick})
+      required this.moveToNextOrPrevFormOnClick,
+      required this.getUploadedCVLink})
       : super(key: key);
 
   @override
@@ -91,8 +95,11 @@ class JobUploadState extends ChangeNotifier {
 
 // Defining a custom Form widget to input the job description provided by user.
 class JobDescriptionForm extends StatefulWidget{
-  const JobDescriptionForm({super.key});
-
+  final Function getUploadedCVLinkCopy;
+  const JobDescriptionForm(
+      {Key? key,
+      required this.getUploadedCVLinkCopy})
+      : super(key: key);
   @override
   State<JobDescriptionForm> createState() => _JobDescriptionFormState();
 
@@ -105,12 +112,14 @@ class _JobDescriptionFormState extends State<JobDescriptionForm>{
 
   final jobController = TextEditingController();
   // late FocusNode jobDescriptionFocusNode;
-  // @override
-  // void initState(){
-  //   super.initState();
+  late Function getUploadedCVLinkCopy;
+  @override
+  void initState(){
+    getUploadedCVLinkCopy = widget.getUploadedCVLinkCopy;
 
-  //   // jobDescriptionFocusNode = FocusNode();
-  // }
+    super.initState();
+    // jobDescriptionFocusNode = FocusNode();
+  }
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -130,7 +139,7 @@ class _JobDescriptionFormState extends State<JobDescriptionForm>{
   @override
   Widget build(BuildContext context){
       var appState = context.watch<JobUploadState>();
-
+        
         return Form(
         
         key:_formKey,
@@ -164,10 +173,15 @@ class _JobDescriptionFormState extends State<JobDescriptionForm>{
                                     String textToUpload = jobController.text;
                                     print(textToUpload);
                                 // TODO: Replace "guest" with userID after authentication. 
+                                  String uploadedCV = widget.getUploadedCVLinkCopy();
+                                  print("job_description: $textToUpload");
+                                  print("cv_link: $uploadedCV");
+                                  print("---");
 
                                   FirebaseFirestore.instance.collection("job_descriptions").doc("guest").set(
                                       {
-                                        "job_description": textToUpload
+                                        "job_description": textToUpload,
+                                        "cv_link": uploadedCV,
                                       }
                                     ).onError((e, _) => print("Error uploading job description on document reference named: $e"));
                                 
@@ -185,7 +199,7 @@ class _JobDescriptionFormState extends State<JobDescriptionForm>{
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text('Data Uploaded!')),
                                 );
-
+                                
                                 appState.jobUploadSuccessfullyToggle(textToUpload);
                         
                             }              
@@ -206,12 +220,14 @@ class _JobUploadArea extends State<JobUploadArea> {
 
     late int processIndexCopy;
     late Function moveToNextOrPrevFormOnClickCopy;
-
+    late Function getUploadedCVLinkCopy;
   @override
   void initState() {
-    super.initState();
+
     moveToNextOrPrevFormOnClickCopy = widget.moveToNextOrPrevFormOnClick;
     processIndexCopy = widget.processIndex;
+    getUploadedCVLinkCopy = widget.getUploadedCVLink;
+    super.initState();
   }
 
 
@@ -220,8 +236,9 @@ class _JobUploadArea extends State<JobUploadArea> {
     var appState = context.watch<JobUploadState>();
 
     IconData icon;
-  
-
+    String uploadedCVLinkCopy = getUploadedCVLinkCopy();
+    print("overhere");
+    print(uploadedCVLinkCopy);
     return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -234,7 +251,7 @@ class _JobUploadArea extends State<JobUploadArea> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: JobDescriptionForm(),
+                    child: JobDescriptionForm(getUploadedCVLinkCopy:getUploadedCVLinkCopy),
                   ),
               ),
               ],

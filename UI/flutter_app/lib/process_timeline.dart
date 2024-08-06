@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/cv_upload.dart';
 import 'package:flutter_app/providers/interview_type_input.dart';
 import 'package:flutter_app/providers/job_upload.dart';
+import 'package:flutter_app/results/feedbackBase.dart';
 import 'package:flutter_app/results/simpleFeedback.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timelines/timelines.dart';
@@ -28,7 +29,7 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
   int _processIndex = 0;
 
   String uploadedCVLink = "";
-  String? feedbackType;
+  String feedbackType = "Quick";
   
 
   Color getColor(int index) {
@@ -48,7 +49,16 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
     });
   }
 
-  
+
+  String getUploadedCVLink(){
+    return uploadedCVLink;
+  }
+
+  void setFeedbackType(String feedback){
+      setState(() {
+      feedbackType = feedback;
+    });
+  }
 
 
   void moveToNextOrPrevFormOnClick(bool moveForward){
@@ -58,7 +68,7 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
               // TODO: Submit - Move to the results page.
                Navigator.push(
 
-                  context, MaterialPageRoute(builder: (context) => QuickResultsPage(cv_link: "cv_link_placeholder", job_description: "job_description_placeholder",)));
+                  context, MaterialPageRoute(builder: (context) => FeedbackProcessingPage(feedbackType:feedbackType)));
               
           }
           else{
@@ -230,9 +240,9 @@ TimelineTileBuilder buildUXFormBar(BuildContext context) {
               case "Upload CV" :
                 return CVSectionPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,setUploadedCVLink:setUploadedCVLink,);
               case "Job Description":
-                return JobUploadPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick);
+                return JobUploadPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick, getUploadedCVLink: getUploadedCVLink);
               case "Feedback Type":
-                return InterviewTypeInputPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick);
+                return InterviewTypeInputPage(processIndex: _processIndex, moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick, setFeedbackType: setFeedbackType);
               default:
                 throw AssertionError("Error In Process Timeline Page Navigation");
             }
@@ -258,7 +268,7 @@ TimelineTileBuilder buildUXFormBar(BuildContext context) {
               // TODO: Submit - Move to the results page.
                Navigator.push(
 
-                  context, MaterialPageRoute(builder: (context) => QuickResultsPage(cv_link: "cv_link_placeholder", job_description: "job_description_placeholder",)));
+                  context, MaterialPageRoute(builder: (context) => QuickResultsPage()));
               
             }
             else{

@@ -153,7 +153,9 @@ class WelcomePage extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 2.0),
-                                      child: Icon(Icons.assessment_outlined, color: Color.fromARGB(206, 58, 82, 204)),
+                                      // child: Icon(Icons.assessment_outlined, color: Color.fromARGB(206, 58, 82, 204)),
+                                      child: Icon(Icons.video_call_outlined, color: Color.fromARGB(206, 58, 82, 204)),
+
                                     ),
                                   ),
                                   TextSpan(

@@ -8,7 +8,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_app/widget.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -42,22 +42,21 @@ class QuickFeedbackResponseSchema {
 
 class QuickResultsPage extends StatelessWidget{
 
-  final String cv_link;
-  final String job_description;
 
-  const QuickResultsPage({super.key, required this.cv_link, required this.job_description});
+  const QuickResultsPage({super.key});
 
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      appBar: TitleAppBar('Quick Results'),
       body: Row(children: [
         Text("Results!"),
         SizedBox(height: 10),
         Center(
           child: FutureBuilder<List<QuickFeedbackResponseSchema>>(
 
-           future: quickAIFeedback(cv_link, job_description), //  Calls the Python REST API
+           future: quickAIFeedback(), //  Calls the Python REST API
 
           builder: (_, snapshot) {
           if (snapshot.hasError) return Text('Error = ${snapshot.error}');
@@ -69,7 +68,7 @@ class QuickResultsPage extends StatelessWidget{
 
                     },
           )),
-        Text(cv_link),
+        Text(""),
         // TODO: LoadingScreen
       
         
@@ -80,7 +79,7 @@ class QuickResultsPage extends StatelessWidget{
 
 
 
-Future<List<QuickFeedbackResponseSchema>> quickAIFeedback(String cv_link, String job_description) async {
+Future<List<QuickFeedbackResponseSchema>> quickAIFeedback() async {
    // 1. Call API, Passing these arguments
   // 2. Retirve resultong text 
    // 3. Steam the response animation (optional)

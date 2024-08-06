@@ -162,7 +162,7 @@ class _CVUploadArea extends State<CVUploadArea> {
                         setUploadedCVLinkCopy(url);
 
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
+                          const SnackBar(content: Text('File Uploaded')),
                         );
 
                         appState.addCVFile(fileName);

@@ -27,11 +27,13 @@ final List<Widget> _interviewFeedbackTypeTextWidgets = <Widget>[
 class InterviewTypeInputPage extends StatelessWidget {
   final int processIndex;
   final Function moveToNextOrPrevFormOnClick;
+  final Function setFeedbackType;
 
   const InterviewTypeInputPage({
     super.key,
     required this.processIndex,
     required this.moveToNextOrPrevFormOnClick,
+    required this.setFeedbackType
   });
 
   @override
@@ -42,17 +44,20 @@ class InterviewTypeInputPage extends StatelessWidget {
             padding: const EdgeInsets.all(32),
             child: InterviewInputArea(
                 processIndex: processIndex,
-                moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick)));
+                moveToNextOrPrevFormOnClick: moveToNextOrPrevFormOnClick,
+                setFeedbackType: setFeedbackType)));
   }
 }
 
 class InterviewInputArea extends StatefulWidget {
   final int processIndex;
   final Function moveToNextOrPrevFormOnClick;
+  final Function setFeedbackType;
   const InterviewInputArea(
       {Key? key,
       required this.processIndex,
-      required this.moveToNextOrPrevFormOnClick})
+      required this.moveToNextOrPrevFormOnClick,
+      required this.setFeedbackType,})
       : super(key: key);
 
   @override
@@ -71,12 +76,14 @@ class InterviewTypeInputState extends ChangeNotifier {
 class _InterviewInputArea extends State<InterviewInputArea> {
   late int processIndexCopy;
   late Function moveToNextOrPrevFormOnClickCopy;
+  late Function setFeedbackTypeCopy;
 
   @override
   void initState() {
     super.initState();
     moveToNextOrPrevFormOnClickCopy = widget.moveToNextOrPrevFormOnClick;
     processIndexCopy = widget.processIndex;
+    setFeedbackTypeCopy = widget.setFeedbackType;
   }
 
   final List<bool> selectedFeedback = <bool>[true, false, false];
@@ -107,6 +114,7 @@ class _InterviewInputArea extends State<InterviewInputArea> {
                   for (int i = 0; i < selectedFeedback.length; i++) {
                     selectedFeedback[i] = i == index;
                   }
+                  setFeedbackTypeCopy(interviewFeedbackTypes[index]);
                 });
               },
               // borderRadius: const BorderRadius.all(Radius.circular(8)),
