@@ -71,6 +71,7 @@ class LLMResponse(Resource):
                 print(model_response)
                 return jsonify(model_response.text)
             elif feedback_type == "behavourial":
+                # Initialise
                 if initialise == 1:
                     
                     # behavourialEngine = self.behavourialEngineSessions.get(username) 
@@ -81,9 +82,16 @@ class LLMResponse(Resource):
                     self.behavourialEngineSessions[username] = behavourialEngine
                     model_response = behavourialEngine.start_mock_interview()
                     return  jsonify(model_response.text)
+                # Finish Mock Interview
+                elif initialise== 2:
+                    behavourialEngine = self.behavourialEngineSessions[username]
+                    model_response = behavourialEngine.end_interview_and_generate_feedback_report()
+                    return  jsonify(model_response.text)
+                # Continue:
                 else:
                     behavourialEngine = self.behavourialEngineSessions[username]
                     model_response = behavourialEngine.follow_up_question(user_response)
+                    print(model_response.text)
                     return  jsonify(model_response.text)
 
                 
