@@ -19,9 +19,37 @@ import 'package:firebase_auth/firebase_auth.dart';
 final interviewFeedbackTypes = ["Quick", "Behavourial", "Technical"];
 
 final List<Widget> _interviewFeedbackTypeTextWidgets = <Widget>[
-  Text.rich(TextSpan(style: TextStyle(color: Colors.black) ,children:[WidgetSpan(child: Icon(Icons.bolt_outlined)), TextSpan(text: " ${interviewFeedbackTypes[0]}\n", style: TextStyle(fontWeight:  FontWeight.bold)), TextSpan(text:"Rapid assessment of job-resume fit. Identifies key strengths, weaknesses, and overall suitability.")])),
-  Text.rich(TextSpan(style: TextStyle(color: Colors.black) ,children:[WidgetSpan(child: Icon(Icons.corporate_fare_outlined)), TextSpan(text: " ${interviewFeedbackTypes[1]}\n", style: TextStyle(fontWeight:  FontWeight.bold)), TextSpan(text:"Simulated behavioral interview assessing cultural fit and behavioral competencies. Offers feedback on communication skills, problem-solving, and decision-making abilities.", )])),
-  Text.rich(TextSpan(style: TextStyle(color: Colors.grey) ,children:[WidgetSpan(child: Icon(Icons.code_sharp)), TextSpan(text: " ${interviewFeedbackTypes[2]} (Coming Soon)\n"), TextSpan(text:"Simulated coding challenge evaluating problem-solving, algorithm design, communication (i.e asking clarifying questions), and coding proficiency.", style: TextStyle(color: Colors.grey))])),
+  Text.rich(TextSpan(style: TextStyle(color: Colors.black), children: [
+    WidgetSpan(child: Icon(Icons.bolt_outlined)),
+    TextSpan(
+        text: " ${interviewFeedbackTypes[0]}\n",
+        style: TextStyle(fontWeight: FontWeight.bold)),
+    TextSpan(
+        text:
+            "Rapid assessment of job-resume fit. Identifies key strengths, weaknesses, and overall suitability.")
+  ])),
+  Text.rich(TextSpan(style: TextStyle(color: Colors.black), children: [
+    WidgetSpan(child: Icon(Icons.corporate_fare_outlined)),
+    TextSpan(
+        text: " ${interviewFeedbackTypes[1]}\n",
+        style: TextStyle(fontWeight: FontWeight.bold)),
+    TextSpan(
+      text:
+          "Simulated behavioral interview assessing cultural fit and behavioral competencies. Offers feedback on communication skills, problem-solving, and decision-making abilities.\n",
+    ),
+    WidgetSpan(child: Image( height: 200, image: AssetImage("assets/preview/behavourial_google_ceo_avatar.png"), fit: BoxFit.scaleDown,
+)),
+  ])),
+  Text.rich(TextSpan(style: TextStyle(color: Colors.grey), children: [
+    WidgetSpan(child: Icon(Icons.code_sharp)),
+    TextSpan(text: " ${interviewFeedbackTypes[2]} (Coming Soon)\n"),
+    TextSpan(
+        text:
+            "Simulated coding challenge evaluating problem-solving, algorithm design, communication (i.e asking clarifying questions), and coding proficiency.\n",
+        style: TextStyle(color: Colors.grey)),
+    WidgetSpan(child: Image( height: 200, image: AssetImage("assets/preview/technical_preview.png"), fit: BoxFit.scaleDown,))
+
+  ])),
 ];
 
 class InterviewTypeInputPage extends StatelessWidget {
@@ -115,6 +143,7 @@ class _InterviewInputArea extends State<InterviewInputArea> {
                     selectedFeedback[i] = i == index;
                   }
                   setFeedbackTypeCopy(interviewFeedbackTypes[index]);
+                  
                 });
               },
               // borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -149,7 +178,7 @@ class _InterviewInputArea extends State<InterviewInputArea> {
                       ))),
         
         
-        Text("TODO: Include Picture of Behavourial and Technical Photo (show code base style)"),
+        
 
          NextAndBackPairButtons(moveToNextOrPrevFormOnClickCopy: moveToNextOrPrevFormOnClickCopy),
 

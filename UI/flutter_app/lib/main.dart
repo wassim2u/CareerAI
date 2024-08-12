@@ -15,11 +15,14 @@ import 'package:flutter_app/process_timeline.dart';
 import 'package:timelines/timelines.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 
 import 'widget.dart';
 
 Future<void> main() async {
+  WebViewPlatform.instance = WebWebViewPlatform();
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(
@@ -102,18 +105,32 @@ class WelcomePage extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
-                                  )
-                                ])),
-                                AutoSizeText('Ace your next ',
-                                    minFontSize: 50,
-                                    maxFontSize: 120,
-                                    style: TextStyle(height: 0.04)),
+                                  ),
+
+                                TextSpan(
+                                  text: "Ace",
+                                  style: TextStyle(
+                                      fontSize: 50,
+                                      height: 1,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),),
+                                TextSpan(
+                                    text: " your next",
+                                    style: TextStyle(
+                                        fontSize: 50,
+                                        height: 1,
+                                        fontWeight: FontWeight.w400),
+                                        
+                                  ),])),
+                                
+                                
                                 AutoSizeText('interviews.',
                                     minFontSize: 50,
                                     maxFontSize: 120,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 150,
+                                        height: 1,
                                         color: Colors.blue)),
                               ])),
                           SizedBox(height: 10),

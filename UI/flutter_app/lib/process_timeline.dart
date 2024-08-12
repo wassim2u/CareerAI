@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/cv_upload.dart';
 import 'package:flutter_app/providers/interview_type_input.dart';
 import 'package:flutter_app/providers/job_upload.dart';
-import 'package:flutter_app/results/feedbackBase.dart';
+import 'package:flutter_app/feedbackBase.dart';
 import 'package:flutter_app/results/simpleFeedback.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timelines/timelines.dart';

@@ -103,18 +103,10 @@ class _CVUploadArea extends State<CVUploadArea> {
 
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("To get started, please Upload CV \n"),
-          Text.rich(TextSpan(children: [
-            WidgetSpan(child: Icon(Icons.warning)),
-            TextSpan(
-              text:
-                  "Please remove sensitive data such as Name, Location, Mobile Phone Number, etc.",
-            ),
-          ])),
-          SizedBox(height: 10),
-          Row(
+          Text("To get started, please Upload your CV. \n"),
+                   Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(width: 10),
@@ -198,12 +190,26 @@ class _CVUploadArea extends State<CVUploadArea> {
               return Text("");
             }
           })),
-          Text(
-              "Short Demo of how to Redact (on Mac). Show a GIF on Mac, and show other links for other software."),
           ExpansionTile(
+            subtitle:   
+            Text.rich(TextSpan(children: [
+            WidgetSpan(child: Icon(Icons.warning)),
+            TextSpan(
+              text:
+                  "Please remove sensitive data such as Name, Location, Mobile Phone Number, etc.",
+              style: TextStyle(fontStyle: FontStyle.italic)
+            ),
+          ])),
+
+            initiallyExpanded: true,
             controller: redactVideoExpansionController,
-            title: const Text('Info on how to redact'),
+            title: const Text('Sensitive Information Notice'),
             children: <Widget>[
+              Text(
+                  "            1.The easiest way is to manually create a copy of your resume where you delete the sensitive text data.\n        "),
+              Text(
+                  "2. Another way is to use the redact features on PDF software tools. On Mac, you can use Preview to redact (See the animation GIF).\nPlease find more information online depending on your favorite PDF tool and operating system."),
+              
               Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(24),
@@ -212,12 +218,9 @@ class _CVUploadArea extends State<CVUploadArea> {
                   fit: BoxFit.scaleDown,
                 ),
               ),
-              Text(
-                  "The reason it is important to remove sensitive information as the model will process the information and will be kept stored. "),
-              Text(
-                  "1.Easiest way is to also manually make a copy of your resume where you delete the text data. "),
-              Text(
-                  "2. Another way is to use redact features on PDF software tools. On Mac, you can use Preview to redact. Please find more information online depending on your favourite PDF tool and operating system. ")
+                Text(
+                  "It is important to remove sensitive information because the Large Language Model may process the information and it may be kept stored. \nDon't enter info that you wouldn't want reviewed or used."),
+
             ],
           ),
           SizedBox(child: Padding(padding:EdgeInsets.all(10)),),

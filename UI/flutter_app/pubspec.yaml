@@ -49,11 +49,22 @@ dependencies:
   timelines: ^0.1.0
   font_awesome_flutter: ^10.7.0
   url_launcher: ^6.3.0
-  js: ^0.7.1
+  js: ^0.6.7
   form_field_validator: ^1.1.0
   flutter_bloc: ^8.1.6
   cloud_firestore: ^5.2.0
   auto_size_text: ^3.0.0
+  flutter_js: ^0.8.1
+  webview_flutter: ^4.8.0
+  path_provider: ^2.1.4
+  webview_flutter_web: ^0.2.3+2
+  flutter_inappwebview: ^6.0.0
+  speech_to_text: ^6.6.0
+  permission_handler: ^11.3.1
+  avatar_glow: ^3.0.1
+  highlight_text: ^1.8.0
+  flutter_markdown: ^0.7.3+1
+  flutter_markdown_selectionarea: ^0.6.17+1
 
 
 dev_dependencies:
@@ -81,6 +92,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/preview/
+
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

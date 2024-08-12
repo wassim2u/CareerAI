@@ -8,9 +8,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/results/webview.dart';
 import 'package:flutter_app/widget.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:js/js.dart';
+// import 'package:flutter_markdown/flutter_markdown.dart';
+
+import 'package:flutter_markdown_selectionarea/flutter_markdown.dart';
 
 class QuickFeedbackResponseSchema { 
   // TODO: int userID
@@ -40,6 +47,8 @@ class QuickFeedbackResponseSchema {
 }
 
 
+
+
 class QuickResultsPage extends StatelessWidget{
 
 
@@ -51,11 +60,11 @@ class QuickResultsPage extends StatelessWidget{
     return Scaffold(
       appBar: TitleAppBar('Quick Results'),
       body: Row(children: [
-        Text("Results!"),
+        // Text("Results!"),
         SizedBox(height: 10),
-        Center(
-          child: FutureBuilder<List<QuickFeedbackResponseSchema>>(
-
+        Flexible(
+          child: FutureBuilder<String>(
+          initialData: "Loading",
            future: quickAIFeedback(), //  Calls the Python REST API
 
           builder: (_, snapshot) {
@@ -63,12 +72,29 @@ class QuickResultsPage extends StatelessWidget{
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           }
-          String? data = snapshot.data!.first.GPTResponse;
-            return Text(data ?? "No Feedback");
+          
+          String? data = snapshot.data as String;
+          return Center(
+            child: SelectionArea(child: Markdown(
+                onTapLink: (text, url, title) {
+                  try {
+                  launchUrl(Uri.parse(url!));
+                }
+                catch (e){
+                    print("Error: $e");
+                }
+                },
+            
+    styleSheet: MarkdownStyleSheet(
+              h2: const TextStyle(fontSize: 24, color: Colors.lightBlueAccent), 
+              code: const TextStyle(fontSize: 14, color: Colors.green),
+              
+            ),
+  data: data))) ?? Text("\n An Error must have occured - Please try submitting for another feedback.");
 
                     },
           )),
-        Text(""),
+        Text("")
         // TODO: LoadingScreen
       
         
@@ -79,16 +105,25 @@ class QuickResultsPage extends StatelessWidget{
 
 
 
-Future<List<QuickFeedbackResponseSchema>> quickAIFeedback() async {
+
+
+
+
+
+Future<String> quickAIFeedback() async {
    // 1. Call API, Passing these arguments
   // 2. Retirve resultong text 
    // 3. Steam the response animation (optional)
 
- var result = await http.get(Uri.parse('http://localhost:5000/api/data'));
+// var uri = Uri.https('127.0.0.1:5000', 'api/data');
+
+ var result = await http.get(Uri.parse('http://127.0.0.1:5000/guest/quick'));
+// var response = await http.get(uri);
 
  if (result.statusCode == 200){
-  final data = json.decode(result.body) as List<dynamic>;
-  return data.map((json) => QuickFeedbackResponseSchema.fromJson(json)).toList();
+  final data = json.decode(result.body) as String;
+  return data;
+  // return data.map((json) => QuickFeedbackResponseSchema.fromJson(json)).toList();
 
  }
  else{
