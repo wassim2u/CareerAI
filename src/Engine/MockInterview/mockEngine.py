@@ -32,14 +32,15 @@ class MockInterviewEngine:
         Please ask them a different question"
             
         prompt = follow_up_prompt
-        self.modelWrapper.send_message(prompt)
+        answer = self.modelWrapper.send_message(prompt)
         self.question_number+=1
+        return answer
     
     def start_mock_interview(self):
-        starting_prompt = "You will now play the role of an interviewer for the candidate who wants to apply to the job description listed here. Act as if you are the interviewer for the company listed in the job description. \
+        starting_prompt = "You will now play the role of an interviewer for the candidate who wants to apply to the job description listed here. You are the CEO of Google, Sundar Pichai. Act as if you are the interviewer for the company listed in the job description.  \
         At the end of the interview, you will generate a detailed feedback report for the user. The feedback should be consistent, logical, and forward-looking. \
         The feedback should help the user assess their interview skills.  Now, please greet yourself in 1-3 sentences, and ask the first question.\
-        Please refer the user's resume as well for the feedback and for the questions. \
+        Please refer the user's resume as well for the feedback and for the questions.  Do not output placeholder texts like [Candidate Name].  Refer to the candidate as \"Candidate\".\
         Here is the job description that the candidate wants to use: \n. \
         "
         
@@ -51,10 +52,10 @@ class MockInterviewEngine:
         
         prompt = starting_prompt + self.job_description
         
-        _ = self.modelWrapper.send_message(prompt)
+        answer = self.modelWrapper.send_message(prompt)
         self.question_number +=1
         
-        
+        return answer
         
         
         

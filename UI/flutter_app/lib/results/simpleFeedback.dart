@@ -117,7 +117,10 @@ Future<String> quickAIFeedback() async {
 
 // var uri = Uri.https('127.0.0.1:5000', 'api/data');
 
- var result = await http.get(Uri.parse('http://127.0.0.1:5000/guest/quick'));
+String userTextPlaceholder="placeholder";
+int initialisePlaceholder = 0;
+
+ var result = await http.get(Uri.parse('http://127.0.0.1:5000/guest/quick/$initialisePlaceholder/$userTextPlaceholder'));
 // var response = await http.get(uri);
 
  if (result.statusCode == 200){

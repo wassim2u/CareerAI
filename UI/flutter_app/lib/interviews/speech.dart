@@ -1,3 +1,4 @@
+import 'package:flutter_app/interviews/behavorial.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 
@@ -47,11 +48,19 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 
 class SpeechRecognition extends StatefulWidget {
+  final String initialText;
+   const SpeechRecognition({
+    super.key,
+    required this.initialText,
+  });
+
   @override
   _SpeechRecognitioneState createState() => _SpeechRecognitioneState();
 }
 
 class _SpeechRecognitioneState extends State<SpeechRecognition> {
+  late String initialTextCopy;
+
   final Map<String, HighlightedWord> _highlights = {
     'You:': HighlightedWord(
       textStyle: const TextStyle(
@@ -65,13 +74,17 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
   late stt.SpeechToText _speech;
   bool _isListening = false;
   bool _givenPermission = false;
-  String _text = 'Press the Micrphone Button and start speaking';
+  String _text = 'Press the Microphone button and start speaking. When you finish answering a question, toggle the Microphone button';
   double _confidence = 1.0;
+  
+  String _interviewerQuestion = "";
 
   @override
   void initState() {
     super.initState();
     _speech = stt.SpeechToText();
+    _interviewerQuestion = widget.initialText;
+    _text = "$_interviewerQuestion\n";
   }
 
   Widget build(BuildContext context) {
@@ -95,7 +108,7 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
         child: SingleChildScrollView(
         reverse: true,
           child: TextHighlight(
-            text: "You: $_text",
+            text:  _text,
             words: _highlights,
             textStyle: const TextStyle(
               fontSize: 20,
@@ -111,7 +124,15 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
   void _listen() async {
     if (!_isListening) {
       bool available = await _speech.initialize(
-        onStatus: (val) => print('onStatus: $val'),
+        onStatus: (val) { 
+          
+          print('onStatus: $val');
+          if (val == "done"){
+            _text = _interviewerQuestion;
+          }
+        
+        
+        },
         onError: (val) {
           print('onError: $val');    
         }
@@ -120,9 +141,9 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
       );
       if (available) {
         setState(() => _isListening = true);
-        _speech.listen(
+        await _speech.listen(
           onResult: (val) => setState(() {
-            _text = val.recognizedWords;
+            _text = "You: "+ val.recognizedWords;
             if (val.hasConfidenceRating && val.confidence > 0) {
               _confidence = val.confidence;
             }
@@ -130,8 +151,15 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
         );
       }
     } else {
-      setState(() => _isListening = false);
-      _speech.stop();
+      await respondToInterviewer(_text).then((String response){
+      setState(() {
+           _isListening = false;
+            _speech.stop();
+           _interviewerQuestion = response;
+           _text = _interviewerQuestion;
+           
+          });
+      });
     }
   }
 }

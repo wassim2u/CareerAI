@@ -1,5 +1,9 @@
 pyproject.toml
 setup.cfg
+src/__init__.py
+src/API/__init__.py
+src/API/api.py
+src/CV/__init__.py
 src/CV/cv.py
 src/CareerAI.egg-info/PKG-INFO
 src/CareerAI.egg-info/SOURCES.txt
@@ -7,6 +11,7 @@ src/CareerAI.egg-info/dependency_links.txt
 src/CareerAI.egg-info/top_level.txt
 src/Engine/MockInterview/mockEngine.py
 src/Jobs/jobs.py
+src/Model/__init__.py
 src/Model/models.py
 src/User/user.py
 src/careerai.egg-info/PKG-INFO
