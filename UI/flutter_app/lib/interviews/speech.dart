@@ -76,6 +76,7 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
   bool _givenPermission = false;
   String _text = 'Press the Microphone button and start speaking. When you finish answering a question, toggle the Microphone button';
   double _confidence = 1.0;
+  int _questions_answered = 0;
   
   String _interviewerQuestion = "";
 
@@ -85,6 +86,7 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
     _speech = stt.SpeechToText();
     _interviewerQuestion = widget.initialText;
     _text = "$_interviewerQuestion\n";
+    _questions_answered = 0;
   }
 
   Widget build(BuildContext context) {
@@ -127,7 +129,7 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
         onStatus: (val) { 
           
           print('onStatus: $val');
-          if (val == "done"){
+          if (val == "done" || val == "notListening"){
             _text = _interviewerQuestion;
           }
         
@@ -141,9 +143,14 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
       );
       if (available) {
         setState(() => _isListening = true);
-        await _speech.listen(
+        _speech.listen(
           onResult: (val) => setState(() {
-            _text = "You: "+ val.recognizedWords;
+            if (_isListening == false){
+              _text = _interviewerQuestion;
+            }
+            else{
+              _text = "You: "+ val.recognizedWords;
+            }
             if (val.hasConfidenceRating && val.confidence > 0) {
               _confidence = val.confidence;
             }
@@ -154,10 +161,11 @@ class _SpeechRecognitioneState extends State<SpeechRecognition> {
       await respondToInterviewer(_text).then((String response){
       setState(() {
            _isListening = false;
+           print(response);
             _speech.stop();
            _interviewerQuestion = response;
            _text = _interviewerQuestion;
-           
+           _questions_answered+=1; 
           });
       });
     }

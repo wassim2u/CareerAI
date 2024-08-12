@@ -109,6 +109,7 @@ async function run(refContainer) {
   
 
   console.log('document was not ready, place code here');
+
   
   // Instantiate the class
   // NOTE: Never put your API key in a client-side code unless you know
@@ -116,7 +117,7 @@ async function run(refContainer) {
   const nodeAvatar = document.getElementById('avatar');
   head = new TalkingHead(nodeAvatar, {
     ttsEndpoint: "https://eu-texttospeech.googleapis.com/v1beta1/text:synthesize",
-    ttsApikey: process.env.TTS_KEY, // <- Change this
+    ttsApikey: process.env.REACT_APP_TTS_KEY, // 
     lipsyncModules: ["en"],
     cameraView: "upper"
   });
@@ -132,7 +133,8 @@ async function run(refContainer) {
       body: 'M',
       avatarMood: 'happy',
       ttsLang: "en-IN",
-      ttsVoice: "en-IN-Neural2-C",
+      // ttsVoice: "en-IN-Neural2-C",
+      ttsVoice: "en-IN-Standard-C",
       lipsyncLang: 'en'
     }, (ev) => {
       if (ev.lengthComputable) {

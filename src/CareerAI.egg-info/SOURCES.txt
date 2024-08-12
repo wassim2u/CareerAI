@@ -10,6 +10,7 @@ src/CareerAI.egg-info/SOURCES.txt
 src/CareerAI.egg-info/dependency_links.txt
 src/CareerAI.egg-info/top_level.txt
 src/Engine/MockInterview/mockEngine.py
+src/Engine/MockInterview/question_bank.py
 src/Jobs/jobs.py
 src/Model/__init__.py
 src/Model/models.py

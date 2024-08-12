@@ -28,18 +28,48 @@ CORS(app)
 
 
 
-
-
-
+# TODO: Make this more scalable
+AI_Responses = {}
+num_responses = 0
 def generate_events():
     """Generator function to yield events from the LLM response."""
-    # TODO: Chat functionality
-    response = "Hello This is a test message!"
-    
-    json_data =  json.dumps({'data': response}) 
-    yield f"event:message\ndata: {json_data}\n\n"
+    while True:
+        # TODO: Make this more scalable
+        global num_responses
+        
+        if AI_Responses.get("guest") is not None and  len(AI_Responses["guest"]) > num_responses:        
+            # print("break")
+            # print(len(AI_Responses["guest"]))
+            # print(num_responses)
+            num_responses+=1    
+            # print(AI_Responses["guest"][-1])
+            json_data =  json.dumps({'data': AI_Responses["guest"][-1].replace("\"", "")}) 
+
+            yield f"event:message\ndata: {json_data}\n\n"
+        # await time.sleep(1)
+        time.sleep(5)
+
 
     # yield "event: end\ndata: stream\n\n"
+
+
+# # TODO: Make this more scalable
+# AI_Responses = {}
+# num_responses = 0
+# def generate_events():
+#     """Generator function to yield events from the LLM response."""
+#     # TODO: Make this more scalable
+#     response = "This is a test"
+#     print("activated")
+#     time.sleep(1)
+#     global num_responses
+#     # json_data =  json.dumps({'data': AI_Responses["guest"][-1].replace("\"", "")}) 
+#     json_data =  json.dumps({'data': response}) 
+
+#     yield f"event:message\ndata: {json_data}\n\n"
+
+#     # yield "event: end\ndata: stream\n\n"
+
 
 
 
@@ -80,7 +110,11 @@ class LLMResponse(Resource):
                     
                     behavourialEngine = MockInterviewEngine(CV= cv_link, job_description= job_description, modelWrapper=geminiWrapper)
                     self.behavourialEngineSessions[username] = behavourialEngine
+                    global AI_Responses , num_responses
+                    AI_Responses[username] = []
+                    num_responses = 0
                     model_response = behavourialEngine.start_mock_interview()
+                    AI_Responses[username].append(model_response.text)
                     return  jsonify(model_response.text)
                 # Finish Mock Interview
                 elif initialise== 2:
@@ -91,7 +125,9 @@ class LLMResponse(Resource):
                 else:
                     behavourialEngine = self.behavourialEngineSessions[username]
                     model_response = behavourialEngine.follow_up_question(user_response)
+                    
                     print(model_response.text)
+                    AI_Responses[username].append(model_response.text)
                     return  jsonify(model_response.text)
 
                 
@@ -99,6 +135,7 @@ class LLMResponse(Resource):
                 print("Not Implemented this feedback type yet!")
         except Exception as e:
             print(e)
+            return jsonify("Could you repeat your question please?")
             
         
     
@@ -146,7 +183,15 @@ class LLMResponse(Resource):
 
 
 api.add_resource(LLMResponse, '/<string:username>/<string:feedback_type>/<int:initialise>/<string:user_response>')
+
+# Defines a route in the Flask app that clients can connect to for receiving streamed events
+@app.route('/events')
+@cross_origin(supports_credentials=True)
+def sse_request():
+    """Route to handle SSE (Server-Sent Events) requests."""
+    # Returns a streaming response that yields data from the `generate_events` generator function
     
+    return Response(generate_events(), content_type='text/event-stream')
 
 if __name__=="__main__":
     app.run(debug=True)

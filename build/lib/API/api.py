@@ -28,18 +28,48 @@ CORS(app)
 
 
 
-
-
-
+# TODO: Make this more scalable
+AI_Responses = {}
+num_responses = 0
 def generate_events():
     """Generator function to yield events from the LLM response."""
-    # TODO: Chat functionality
-    response = "Hello This is a test message!"
-    
-    json_data =  json.dumps({'data': response}) 
-    yield f"event:message\ndata: {json_data}\n\n"
+    while True:
+        # TODO: Make this more scalable
+        global num_responses
+        
+        if AI_Responses.get("guest") is not None and  len(AI_Responses["guest"]) > num_responses:        
+            # print("break")
+            # print(len(AI_Responses["guest"]))
+            # print(num_responses)
+            num_responses+=1    
+            # print(AI_Responses["guest"][-1])
+            json_data =  json.dumps({'data': AI_Responses["guest"][-1].replace("\"", "")}) 
+
+            yield f"event:message\ndata: {json_data}\n\n"
+        # await time.sleep(1)
+        time.sleep(5)
+
 
     # yield "event: end\ndata: stream\n\n"
+
+
+# # TODO: Make this more scalable
+# AI_Responses = {}
+# num_responses = 0
+# def generate_events():
+#     """Generator function to yield events from the LLM response."""
+#     # TODO: Make this more scalable
+#     response = "This is a test"
+#     print("activated")
+#     time.sleep(1)
+#     global num_responses
+#     # json_data =  json.dumps({'data': AI_Responses["guest"][-1].replace("\"", "")}) 
+#     json_data =  json.dumps({'data': response}) 
+
+#     yield f"event:message\ndata: {json_data}\n\n"
+
+#     # yield "event: end\ndata: stream\n\n"
+
 
 
 
@@ -48,11 +78,12 @@ firebase_admin.initialize_app(cred,   {
     'storageBucket': 'gs://gen-lang-client-0071363946.appspot.com'
 })
 bucket = storage.bucket()
-
+    
 
 class LLMResponse(Resource):
     behavourialEngineSessions = {}
-    def get(self, username, feedback_type):
+    
+    def get(self, username, feedback_type, initialise, user_response):
 
         
         # response = self.quick_model(CV_LINK_TEMP, JOB_DESCRIPTION_TEMP)
@@ -70,20 +101,41 @@ class LLMResponse(Resource):
                 print(model_response)
                 return jsonify(model_response.text)
             elif feedback_type == "behavourial":
-                # behavourialEngine = self.behavourialEngineSessions.get(username) 
-                model_type= 'gemini-1.5-flash'
-                geminiWrapper = GeminiModelWrapper(gemini_model_type=model_type, history=[])
-                
-                behavourialEngine = MockInterviewEngine(CV= cv_link, job_description= job_description, modelWrapper=geminiWrapper)
-                self.behavourialEngineSessions[username] = behavourialEngine
-                model_response = behavourialEngine.start_mock_interview()
-                return  jsonify(model_response.text)
+                # Initialise
+                if initialise == 1:
+                    
+                    # behavourialEngine = self.behavourialEngineSessions.get(username) 
+                    model_type= 'gemini-1.5-flash'
+                    geminiWrapper = GeminiModelWrapper(gemini_model_type=model_type, history=[])
+                    
+                    behavourialEngine = MockInterviewEngine(CV= cv_link, job_description= job_description, modelWrapper=geminiWrapper)
+                    self.behavourialEngineSessions[username] = behavourialEngine
+                    global AI_Responses , num_responses
+                    AI_Responses[username] = []
+                    num_responses = 0
+                    model_response = behavourialEngine.start_mock_interview()
+                    AI_Responses[username].append(model_response.text)
+                    return  jsonify(model_response.text)
+                # Finish Mock Interview
+                elif initialise== 2:
+                    behavourialEngine = self.behavourialEngineSessions[username]
+                    model_response = behavourialEngine.end_interview_and_generate_feedback_report()
+                    return  jsonify(model_response.text)
+                # Continue:
+                else:
+                    behavourialEngine = self.behavourialEngineSessions[username]
+                    model_response = behavourialEngine.follow_up_question(user_response)
+                    
+                    print(model_response.text)
+                    AI_Responses[username].append(model_response.text)
+                    return  jsonify(model_response.text)
 
                 
             else: 
                 print("Not Implemented this feedback type yet!")
         except Exception as e:
             print(e)
+            return jsonify("Could you repeat your question please?")
             
         
     
@@ -123,43 +175,23 @@ class LLMResponse(Resource):
         return doc["job_description"], doc["cv_link"]
 
 
+
         
 
      
 
 
-# upload selected image and forward to processing page
-@app.route("/upload", methods=["POST"])
-def upload():
-    target = os.path.join(APP_ROOT, 'static/images/')
 
-    # create image directory if not found
-    if not os.path.isdir(target):
-        os.mkdir(target)
+api.add_resource(LLMResponse, '/<string:username>/<string:feedback_type>/<int:initialise>/<string:user_response>')
 
-    # retrieve file from html file-picker
-    upload = request.files.getlist("file")[0]
-    print("File name: {}".format(upload.filename))
-    filename = upload.filename
-
-    # file support verification
-    ext = os.path.splitext(filename)[1]
-    if (ext == ".jpg") or (ext == ".png") or (ext == ".bmp"):
-        print("File accepted")
-    else:
-        return render_template("error.html", message="The selected file is not supported"), 400
-
-    # save file
-    destination = "/".join([target, filename])
-    print("File saved to to:", destination)
-    upload.save(destination)
-
-    # forward to processing page
-    return render_template("processing.html", image_name=filename)
-
-
-api.add_resource(LLMResponse, '/<string:username>/<string:feedback_type>')
+# Defines a route in the Flask app that clients can connect to for receiving streamed events
+@app.route('/events')
+@cross_origin(supports_credentials=True)
+def sse_request():
+    """Route to handle SSE (Server-Sent Events) requests."""
+    # Returns a streaming response that yields data from the `generate_events` generator function
     
+    return Response(generate_events(), content_type='text/event-stream')
 
 if __name__=="__main__":
     app.run(debug=True)

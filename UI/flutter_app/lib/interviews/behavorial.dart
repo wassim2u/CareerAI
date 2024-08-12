@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/interviews/speech.dart';
+import 'package:flutter_app/results/behavourialFeedback.dart';
 import 'package:flutter_app/widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -88,6 +89,8 @@ Future<String> respondToInterviewer(String userText) async {
   }
 }
 
+
+
 class _BehavourialWebViewAvatar extends StatefulWidget {
   const _BehavourialWebViewAvatar();
 
@@ -106,9 +109,8 @@ class _WebViewAvatarState extends State<_BehavourialWebViewAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(children: [
-      Expanded(
+    return Column(children: [
+       Expanded(
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -130,9 +132,16 @@ class _WebViewAvatarState extends State<_BehavourialWebViewAvatar> {
             SizedBox(
               height: 10,
             ),
-            ElevatedButton(onPressed: () {}, child: Text("Finish Interview")),
+            ElevatedButton(onPressed: () {
+
+                Navigator.push(
+
+                  context, MaterialPageRoute(builder: (context) => BehavourialResultsPage()));
+
+            }, child: Text("Finish Interview")),
+      
             SizedBox(height:10),
-            Container( width: 700, child: Flexible(child: Text('Press the Microphone button and start speaking. When you finish answering a question, submit the response by turning off the Microphone button.', softWrap: true))),
+            Container( width: 700, child: Container(child: Text('Press the Microphone button and start speaking. When you finish answering a question, submit the response by turning off the Microphone button.', softWrap: true))),
             // Container(child: FutureBuilder(
             //     future: intialiseInterview(), 
             //     builder: (BuildContext context, AsyncSnapshot<String> snapshot) { 
@@ -164,7 +173,7 @@ class _WebViewAvatarState extends State<_BehavourialWebViewAvatar> {
                 String? interviewerResponse = snapshot.data as String;
                 // _text = !interviewerResponse;
                 // return  Container( width: 700, child: Flexible(child: Text("Interviewer: $data", softWrap: true)));
-                return  Flexible(fit: FlexFit.tight, child: SpeechRecognition(initialText: interviewerResponse));
+                return  Flexible(child: SpeechRecognition(initialText: interviewerResponse));
 
                 },
                 
@@ -175,7 +184,7 @@ class _WebViewAvatarState extends State<_BehavourialWebViewAvatar> {
       SizedBox(
         height: 100,
       ),
-    ]));
+    ]);
   }
 }
 

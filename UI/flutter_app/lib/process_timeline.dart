@@ -252,34 +252,34 @@ TimelineTileBuilder buildUXFormBar(BuildContext context) {
         ]
       ),
        
-      floatingActionButton: FloatingActionButton(
+      // floatingActionButton: FloatingActionButton(
         
-        onPressed: () {
-          // // Validate returns true if the form is valid, or false otherwise.
-          // if (_formKey.currentState!.validate()) {
-          //   // If the form is valid, display a snackbar. In the real world,
-          //   // you'd often call a server or save the information in a database.
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(content: Text('Processing Data')),
-          //   );
+      //   onPressed: () {
+      //     // // Validate returns true if the form is valid, or false otherwise.
+      //     // if (_formKey.currentState!.validate()) {
+      //     //   // If the form is valid, display a snackbar. In the real world,
+      //     //   // you'd often call a server or save the information in a database.
+      //     //   ScaffoldMessenger.of(context).showSnackBar(
+      //     //     const SnackBar(content: Text('Processing Data')),
+      //     //   );
 
-            setState(() {
-            if (_processIndex ==  _processes.length -1){
-              // TODO: Submit - Move to the results page.
-               Navigator.push(
+      //       setState(() {
+      //       if (_processIndex ==  _processes.length -1){
+      //         // TODO: Submit - Move to the results page.
+      //          Navigator.push(
 
-                  context, MaterialPageRoute(builder: (context) => QuickResultsPage()));
+      //             context, MaterialPageRoute(builder: (context) => QuickResultsPage()));
               
-            }
-            else{
-            _processIndex = (_processIndex + 1);
-            }
-              });
-          // }
-        },
-        backgroundColor: inProgressColor,
-        child: Icon(FontAwesomeIcons.chevronRight),
-      ),
+      //       }
+      //       else{
+      //       _processIndex = (_processIndex + 1);
+      //       }
+      //         });
+      //     // }
+      //   },
+      //   backgroundColor: inProgressColor,
+      //   child: Icon(FontAwesomeIcons.chevronRight),
+      // ),
     ); 
   }
 }

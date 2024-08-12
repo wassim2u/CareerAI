@@ -171,11 +171,7 @@ class _CVUploadArea extends State<CVUploadArea> {
                     }
                   },
                   child: Text("Upload File")),
-              ElevatedButton(
-                  onPressed: () async {
-                    print("Button Pressed!");
-                  },
-                  child: Text("Send Hello World")),
+  
             ],
           ),
           Container(child: Builder(builder: (context) {
