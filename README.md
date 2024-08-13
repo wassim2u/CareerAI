@@ -19,8 +19,11 @@ Install the libraries using
 - `pip install .` from the root page
 - In the terminal, `export GOOGLE_API_KEY=Your_API_Key` to use the Gemini Functionality
 
+Go to the api.py file in src/API/ and 
+run `python api.py` to run the Flask server.
+
 ## To run the Flutter application
->> Go To UI/flutter_app
+>> Go to the Folder UI/flutter_app
 `flutter run -d chrome`
 or
 `flutter run --profile -d chrome` for a faster User experience.
@@ -28,11 +31,11 @@ or
 For the submission of a demo resume, feel free to use my resume at the root of this page.
 
 ## To run the Avatar App 
->> Go To UI/react
+>> Go to the Folder ./UI/react
 
 - `npm install`
+- `export REACT_APP_TTS_KEY=Your_API_Key
 - `npm run`
-
 
 
 Credits: 
