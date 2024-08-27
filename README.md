@@ -1,4 +1,11 @@
-# InVision | Gemini Competition API 
+# InVision | Google Gemini API Competition 
+
+## Demo 
+For a short demo of the submitted version to the Google Gemini API Competition, check out the link below
+https://www.youtube.com/watch?v=ZfETT-D4Fpc
+
+
+##
 
 ## Local Development
 
