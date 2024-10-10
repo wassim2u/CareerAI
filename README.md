@@ -11,6 +11,14 @@ https://www.youtube.com/watch?v=ZfETT-D4Fpc
 ![](./README_Figures/FeedbackTypesv1.png)
 
 
+## Description
+
+The app is a career feedback tool designed to enhance job preparation using AI capabilities. It provides user recommendations and feedback, and the application offers different types of feedback, including quick analysis and simulated mock interview.
+The core landing page is built with Flutter. The backend is powered by a Python-based REST API. React is used to stream a custom avatar, created with Ready Player Me. The avatar interacts with users through Google's Text-to-Speech, creating a dynamic and engaging experience.
+
+Gemini API plays a central role in the app by performing quick analyses of resumes and job descriptions provided by users. For the mock interview feature, I provided the application a curated set of questions and tips to ask the candidate, enhanced by prompt engineering, to deliver valuable feedback. The user is asked interview questions via the avatar, and upon completion. Thanks to the long context window, Gemini compiles an outline of feedback using all the previous information, including tailored recommendations and links to relevant courses for improvement.
+
+
 
 
 ## Local Development
