@@ -24,7 +24,10 @@ Gemini API plays a central role in the app by performing quick analyses of resum
 ## Local Development
 
 For the application to run, it needs to be launched locally for the time being. 
-You need to launch three things:  Flutter Frontend, Flask Backend, and React Frontend.
+You need to launch three things:  
+- Flask Backend,
+- Flutter Frontend (landing page),
+- and React Frontend (for avatar streaming).
 
 
 
@@ -63,3 +66,13 @@ Credits:
 - Ready Player Me (Avatar) - Developer License for Commercial Use
 - https://github.com/met4citizen/TalkingHead
 
+
+## Built with
+- [ ] Python (Flask)
+- [ ] Javascript (React)
+- [ ] Dart (Flutter)
+- [ ] Google's Gemini Model
+- [ ] Google's Text to Speech
+- [ ] Google's Speech to Text
+- [ ] Firebase
+- [ ] Avatar (Ready Player Me)
