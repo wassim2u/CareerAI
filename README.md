@@ -1,8 +1,6 @@
 # InVision | Google Gemini API Competition 
 
-## Demo 
-For a short demo of the submitted version to the Google Gemini API Competition, check out the link below
-https://www.youtube.com/watch?v=ZfETT-D4Fpc
+
 
 ### Landing Page
 ![](./README_Figures/LandingPagev1.png)
@@ -76,3 +74,9 @@ Credits:
 - [ ] Google's Speech to Text
 - [ ] Firebase
 - [ ] Avatar (Ready Player Me)
+
+## Demo 
+For a short demo of the submitted version to the Google Gemini API Competition, check out the [Youtube link](https://www.youtube.com/watch?v=ZfETT-D4Fpc).
+
+[![Youtube Demo Link](https://img.youtube.com/vi/ZfETT-D4Fpc/maxresdefault.jpg)](https://www.youtube.com/watch?v=ZfETT-D4Fpc)
+
